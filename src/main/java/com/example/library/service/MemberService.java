@@ -1,0 +1,68 @@
+package com.example.library.service;
+
+import com.example.library.dto.*;
+import com.example.library.entity.Member;
+import com.example.library.exception.*;
+import com.example.library.mapper.MemberMapper;
+import com.example.library.repository.MemberRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class MemberService {
+
+    private final MemberRepository repo;
+    private final MemberMapper mapper;
+
+    public MemberService(MemberRepository repo, MemberMapper mapper) {
+        this.repo = repo;
+        this.mapper = mapper;
+    }
+
+    public MemberResponseDTO create(MemberRequestDTO dto) {
+        if (repo.existsByEmail(dto.email)) {
+            throw new DuplicateResourceException("Email already exists");
+        }
+
+        Member member = mapper.toEntity(dto);
+        return mapper.toResponse(repo.save(member));
+    }
+
+    public List<MemberResponseDTO> getAll() {
+        return repo.findAll().stream().map(mapper::toResponse).toList();
+    }
+
+    public MemberResponseDTO getById(Long id) {
+        Member m = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+        return mapper.toResponse(m);
+    }
+
+    public MemberResponseDTO update(Long id, MemberRequestDTO dto) {
+        Member m = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+
+        m.setFirstName(dto.firstName);
+        m.setLastName(dto.lastName);
+        m.setEmail(dto.email);
+        m.setPhoneNumber(dto.phoneNumber);
+
+        return mapper.toResponse(repo.save(m));
+    }
+
+    public void delete(Long id) {
+        if (!repo.existsById(id)) {
+            throw new ResourceNotFoundException("Member not found");
+        }
+        repo.deleteById(id);
+    }
+
+    public List<MemberResponseDTO> search(String name) {
+        return repo
+                .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(name, name)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
+    }
+}
