@@ -34,6 +34,7 @@ public class BookDTO {
         private String isbn;
         private String genre;
         private String publishedYear;
+        private boolean available;
         private String authorName; // Flattened name (e.g., "Jane Austen")
     }
 }

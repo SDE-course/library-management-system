@@ -2,6 +2,8 @@ package com.example.library.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "members")
@@ -23,6 +25,9 @@ public class Member {
     private String phoneNumber;
 
     private LocalDate membershipDate;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BorrowRecord> borrowRecords = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {
@@ -46,4 +51,7 @@ public class Member {
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
     public LocalDate getMembershipDate() { return membershipDate; }
+
+    public List<BorrowRecord> getBorrowRecords() { return borrowRecords; }
+    public void setBorrowRecords(List<BorrowRecord> borrowRecords) { this.borrowRecords = borrowRecords; }
 }

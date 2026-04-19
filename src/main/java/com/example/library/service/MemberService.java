@@ -43,6 +43,10 @@ public class MemberService {
         Member m = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
 
+        if (!m.getEmail().equalsIgnoreCase(dto.email) && repo.existsByEmail(dto.email)) {
+            throw new DuplicateResourceException("Email already exists");
+        }
+
         m.setFirstName(dto.firstName);
         m.setLastName(dto.lastName);
         m.setEmail(dto.email);

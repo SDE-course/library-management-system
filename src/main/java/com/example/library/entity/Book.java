@@ -3,6 +3,9 @@ package com.example.library.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "books")
 @Data
@@ -27,8 +30,14 @@ public class Book {
     @Column
     private String publishedYear;
 
+    @Column(nullable = false)
+    private boolean available = true;
+
     // This links directly to your Author entity
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false) // Foreign key to the Author table
     private Author author;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BorrowRecord> borrowRecords = new ArrayList<>();
 }

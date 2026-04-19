@@ -17,6 +17,7 @@ public class BookMapper {
                 .isbn(book.getIsbn())
                 .genre(book.getGenre())
                 .publishedYear(book.getPublishedYear())
+                .available(book.isAvailable())
                 .authorName(book.getAuthor() != null ? 
                     book.getAuthor().getFirstName() + " " + book.getAuthor().getLastName() : null)
                 .build();
