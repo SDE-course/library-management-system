@@ -1,7 +1,7 @@
 package com.example.library.controller;
 
 import com.example.library.dto.AuthorDTO;
-import com.example.library.dto.BookSummaryDTO;
+import com.example.library.dto.BookDTO;
 import com.example.library.service.AuthorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +59,7 @@ public class AuthorController {
 
     // GET /api/authors/{id}/books
     @GetMapping("/{id}/books")
-    public ResponseEntity<List<BookSummaryDTO>> getBooksByAuthor(@PathVariable Long id) {
+    public ResponseEntity<List<BookDTO.Response>> getBooksByAuthor(@PathVariable Long id) {
         return ResponseEntity.ok(authorService.getBooksByAuthor(id));
     }
 }

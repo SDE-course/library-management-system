@@ -1,10 +1,11 @@
 package com.example.library.service;
 
 import com.example.library.dto.AuthorDTO;
-import com.example.library.dto.BookSummaryDTO;
+import com.example.library.dto.BookDTO;
 import com.example.library.entity.Author;
 import com.example.library.exception.ResourceNotFoundException;
 import com.example.library.mapper.AuthorMapper;
+import com.example.library.mapper.BookMapper;
 import com.example.library.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class AuthorService {
 
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
+    private final BookMapper bookMapper;
 
     // GET /api/authors — paginated
     public Page<AuthorDTO.Response> getAllAuthors(Pageable pageable) {
@@ -61,9 +64,11 @@ public class AuthorService {
 
     // GET /api/authors/{id}/books
     // Uses JOIN FETCH to avoid N+1 problem
-    public List<BookSummaryDTO> getBooksByAuthor(Long id) {
+    public List<BookDTO.Response> getBooksByAuthor(Long id) {
         Author author = authorRepository.findByIdWithBooks(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Author not found with id: " + id));
-        return authorMapper.toBookSummaryList(author.getBooks());
+        return author.getBooks().stream()
+            .map(bookMapper::toResponse)
+            .collect(Collectors.toList());
     }
 }

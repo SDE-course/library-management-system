@@ -1,7 +1,7 @@
 package com.example.library.mapper;
 
 import com.example.library.dto.AuthorDTO;
-import com.example.library.dto.BookSummaryDTO;
+import com.example.library.dto.BookDTO;      // Add this import
 import com.example.library.entity.Author;
 import com.example.library.entity.Book;
 import org.mapstruct.*;
@@ -17,12 +17,15 @@ public interface AuthorMapper {
     // Entity → Response DTO
     AuthorDTO.Response toResponse(Author author);
 
-    // Book Entity → BookSummaryDTO (for /api/authors/{id}/books)
-    BookSummaryDTO toBookSummary(Book book);
+    // --- CHANGE THESE TWO LINES ---
+    
+    @Mapping(target = "authorName", expression = "java(book.getAuthor().getFirstName() + \" \" + book.getAuthor().getLastName())")
+    BookDTO.Response toBookResponse(Book book);
 
-    List<BookSummaryDTO> toBookSummaryList(List<Book> books);
+    List<BookDTO.Response> toBookResponseList(List<Book> books);
 
-    // Update existing entity from request (ignore null fields)
+    // ------------------------------
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromRequest(AuthorDTO.Request request, @MappingTarget Author author);
 }
