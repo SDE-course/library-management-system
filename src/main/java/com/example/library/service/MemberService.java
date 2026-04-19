@@ -5,6 +5,8 @@ import com.example.library.entity.Member;
 import com.example.library.exception.*;
 import com.example.library.mapper.MemberMapper;
 import com.example.library.repository.MemberRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,8 +31,8 @@ public class MemberService {
         return mapper.toResponse(repo.save(member));
     }
 
-    public List<MemberResponseDTO> getAll() {
-        return repo.findAll().stream().map(mapper::toResponse).toList();
+    public Page<MemberResponseDTO> getAll(Pageable pageable) {
+        return repo.findAll(pageable).map(mapper::toResponse);
     }
 
     public MemberResponseDTO getById(Long id) {

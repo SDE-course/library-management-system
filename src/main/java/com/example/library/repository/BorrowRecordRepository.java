@@ -21,4 +21,7 @@ public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Long
 
     @EntityGraph(attributePaths = {"member", "book"})
     List<BorrowRecord> findByMemberId(Long memberId);
+
+    @EntityGraph(attributePaths = {"member", "book"})
+    List<BorrowRecord> findByReturnDateIsNull();
 }

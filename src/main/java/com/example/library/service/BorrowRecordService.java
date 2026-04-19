@@ -7,6 +7,7 @@ import com.example.library.entity.Member;
 import com.example.library.exception.DuplicateResourceException;
 import com.example.library.exception.OperationConflictException;
 import com.example.library.exception.ResourceNotFoundException;
+import com.example.library.mapper.BorrowRecordMapper;
 import com.example.library.repository.BookRepository;
 import com.example.library.repository.BorrowRecordRepository;
 import com.example.library.repository.MemberRepository;
@@ -24,6 +25,7 @@ public class BorrowRecordService {
     private final BorrowRecordRepository borrowRecordRepository;
     private final MemberRepository memberRepository;
     private final BookRepository bookRepository;
+    private final BorrowRecordMapper borrowRecordMapper;
 
     @Transactional
     public BorrowRecordDTO.Response borrowBook(BorrowRecordDTO.Request request) {
@@ -52,7 +54,7 @@ public class BorrowRecordService {
                 .build();
 
         BorrowRecord saved = borrowRecordRepository.save(record);
-        return toResponse(saved);
+        return borrowRecordMapper.toResponse(saved);
     }
 
     @Transactional
@@ -72,7 +74,7 @@ public class BorrowRecordService {
         bookRepository.save(book);
 
         BorrowRecord saved = borrowRecordRepository.save(record);
-        return toResponse(saved);
+        return borrowRecordMapper.toResponse(saved);
     }
 
     @Transactional(readOnly = true)
@@ -81,23 +83,11 @@ public class BorrowRecordService {
             throw new ResourceNotFoundException("Member not found with id: " + memberId);
         }
 
-        return borrowRecordRepository.findByMemberId(memberId)
-                .stream()
-                .map(this::toResponse)
-                .toList();
+        return borrowRecordMapper.toResponseList(borrowRecordRepository.findByMemberId(memberId));
     }
 
-    private BorrowRecordDTO.Response toResponse(BorrowRecord borrowRecord) {
-        String memberName = borrowRecord.getMember().getFirstName() + " " + borrowRecord.getMember().getLastName();
-        return BorrowRecordDTO.Response.builder()
-                .id(borrowRecord.getId())
-                .memberId(borrowRecord.getMember().getId())
-                .memberName(memberName)
-                .bookId(borrowRecord.getBook().getId())
-                .bookTitle(borrowRecord.getBook().getTitle())
-                .borrowDate(borrowRecord.getBorrowDate())
-                .returnDate(borrowRecord.getReturnDate())
-                .returned(borrowRecord.isReturned())
-                .build();
+    @Transactional(readOnly = true)
+    public List<BorrowRecordDTO.Response> getActiveBorrows() {
+        return borrowRecordMapper.toResponseList(borrowRecordRepository.findByReturnDateIsNull());
     }
 }

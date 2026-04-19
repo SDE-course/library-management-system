@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/borrows")
+@RequestMapping("/api/borrow-records")
 @RequiredArgsConstructor
 public class BorrowRecordController {
 
@@ -23,13 +23,18 @@ public class BorrowRecordController {
         return ResponseEntity.status(HttpStatus.CREATED).body(borrowRecordService.borrowBook(request));
     }
 
-    @PutMapping("/{borrowRecordId}/return")
-    public ResponseEntity<BorrowRecordDTO.Response> returnBook(@PathVariable Long borrowRecordId) {
-        return ResponseEntity.ok(borrowRecordService.returnBook(borrowRecordId));
+    @PutMapping("/{id}/return")
+    public ResponseEntity<BorrowRecordDTO.Response> returnBook(@PathVariable Long id) {
+        return ResponseEntity.ok(borrowRecordService.returnBook(id));
     }
 
     @GetMapping("/member/{memberId}")
     public ResponseEntity<List<BorrowRecordDTO.Response>> getBorrowsByMember(@PathVariable Long memberId) {
         return ResponseEntity.ok(borrowRecordService.getBorrowsByMember(memberId));
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<BorrowRecordDTO.Response>> getActiveBorrows() {
+        return ResponseEntity.ok(borrowRecordService.getActiveBorrows());
     }
 }

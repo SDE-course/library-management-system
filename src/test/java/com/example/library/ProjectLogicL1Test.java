@@ -39,7 +39,13 @@ class ProjectLogicL1Test {
         Long bookId = createBook("Cairo Trilogy", "INT-ISBN-2001", authorId);
         Long memberId = createMember("Ali", "Hassan", "ali.int@example.com");
 
-        MvcResult borrowResult = mockMvc.perform(post("/api/borrows")
+        mockMvc.perform(get("/api/books/{id}", bookId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.author.id").value(authorId))
+                .andExpect(jsonPath("$.author.firstName").value("Naguib"))
+                .andExpect(jsonPath("$.author.lastName").value("Mahfouz"));
+
+        MvcResult borrowResult = mockMvc.perform(post("/api/borrow-records")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "memberId", memberId,
@@ -57,10 +63,14 @@ class ProjectLogicL1Test {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.available").value(false));
 
-        mockMvc.perform(put("/api/borrows/{borrowRecordId}/return", borrowId))
+        mockMvc.perform(put("/api/borrow-records/{id}/return", borrowId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.returned").value(true))
                 .andExpect(jsonPath("$.returnDate").isNotEmpty());
+
+        mockMvc.perform(get("/api/borrow-records/active"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(0));
 
         mockMvc.perform(get("/api/books/{id}", bookId))
                 .andExpect(status().isOk())
@@ -74,7 +84,7 @@ class ProjectLogicL1Test {
         Long memberAId = createMember("Mona", "Saleh", "mona.int@example.com");
         Long memberBId = createMember("Yara", "Kamal", "yara.int@example.com");
 
-        mockMvc.perform(post("/api/borrows")
+        mockMvc.perform(post("/api/borrow-records")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "memberId", memberAId,
@@ -82,7 +92,7 @@ class ProjectLogicL1Test {
                         ))))
                 .andExpect(status().isCreated());
 
-        mockMvc.perform(post("/api/borrows")
+        mockMvc.perform(post("/api/borrow-records")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
                                 "memberId", memberBId,
@@ -90,6 +100,10 @@ class ProjectLogicL1Test {
                         ))))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message").value("Book is not available for borrowing"));
+
+        mockMvc.perform(get("/api/borrow-records/active"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1));
     }
 
     @Test

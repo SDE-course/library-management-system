@@ -2,48 +2,26 @@ package com.example.library.mapper;
 
 import com.example.library.dto.BookDTO;
 import com.example.library.entity.Book;
-import org.springframework.stereotype.Component;
+import org.mapstruct.*;
 
-@Component
-public class BookMapper {
+@Mapper(componentModel = "spring")
+public interface BookMapper {
 
-    // Entity -> Response DTO
-    public BookDTO.Response toResponse(Book book) {
-        if (book == null) return null;
+    @Mapping(target = "author.id", source = "author.id")
+    @Mapping(target = "author.firstName", source = "author.firstName")
+    @Mapping(target = "author.lastName", source = "author.lastName")
+    BookDTO.Response toResponse(Book book);
 
-        return BookDTO.Response.builder()
-                .id(book.getId())
-                .title(book.getTitle())
-                .isbn(book.getIsbn())
-                .genre(book.getGenre())
-                .publishedYear(book.getPublishedYear())
-                .available(book.isAvailable())
-                .authorName(book.getAuthor() != null ? 
-                    book.getAuthor().getFirstName() + " " + book.getAuthor().getLastName() : null)
-                .build();
-    }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "author", ignore = true)
+    @Mapping(target = "borrowRecords", ignore = true)
+    @Mapping(target = "available", ignore = true)
+    Book toEntity(BookDTO.Request request);
 
-    // Request DTO -> Entity
-    public Book toEntity(BookDTO.Request request) {
-        if (request == null) return null;
-
-        return Book.builder()
-                .title(request.getTitle())
-                .isbn(request.getIsbn())
-                .genre(request.getGenre())
-                .publishedYear(request.getPublishedYear())
-                // Note: The Service layer will handle setting the actual Author object
-                .build();
-    }
-
-    // Update existing Entity from Request
-    public void updateEntityFromRequest(BookDTO.Request request, Book book) {
-        if (request == null) return;
-
-        book.setTitle(request.getTitle());
-        book.setIsbn(request.getIsbn());
-        book.setGenre(request.getGenre());
-        book.setPublishedYear(request.getPublishedYear());
-        // Service layer will handle the author_id change if needed
-    }
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "author", ignore = true)
+    @Mapping(target = "borrowRecords", ignore = true)
+    @Mapping(target = "available", ignore = true)
+    void updateEntityFromRequest(BookDTO.Request request, @MappingTarget Book book);
 }

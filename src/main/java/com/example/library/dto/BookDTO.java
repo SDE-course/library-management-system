@@ -35,6 +35,16 @@ public class BookDTO {
         private String genre;
         private String publishedYear;
         private boolean available;
-        private String authorName; // Flattened name (e.g., "Jane Austen")
+        private AuthorSummary author;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AuthorSummary {
+        private Long id;
+        private String firstName;
+        private String lastName;
     }
 }

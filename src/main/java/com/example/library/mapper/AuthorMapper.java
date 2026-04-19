@@ -17,14 +17,12 @@ public interface AuthorMapper {
     // Entity → Response DTO
     AuthorDTO.Response toResponse(Author author);
 
-    // --- CHANGE THESE TWO LINES ---
-    
-    @Mapping(target = "authorName", expression = "java(book.getAuthor().getFirstName() + \" \" + book.getAuthor().getLastName())")
+    @Mapping(target = "author.id", source = "author.id")
+    @Mapping(target = "author.firstName", source = "author.firstName")
+    @Mapping(target = "author.lastName", source = "author.lastName")
     BookDTO.Response toBookResponse(Book book);
 
     List<BookDTO.Response> toBookResponseList(List<Book> books);
-
-    // ------------------------------
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromRequest(AuthorDTO.Request request, @MappingTarget Author author);

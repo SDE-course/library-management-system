@@ -59,7 +59,10 @@ class LibraryApplicationTests {
 		BookDTO.Response createdBook = bookService.createBook(bookRequest);
 		List<BookDTO.Response> booksByAuthor = authorService.getBooksByAuthor(author.getId());
 
-		assertThat(createdBook.getAuthorName()).isEqualTo("Naguib Mahfouz");
+		assertThat(createdBook.getAuthor()).isNotNull();
+		assertThat(createdBook.getAuthor().getId()).isEqualTo(author.getId());
+		assertThat(createdBook.getAuthor().getFirstName()).isEqualTo("Naguib");
+		assertThat(createdBook.getAuthor().getLastName()).isEqualTo("Mahfouz");
 		assertThat(createdBook.isAvailable()).isTrue();
 		assertThat(booksByAuthor).hasSize(1);
 		assertThat(booksByAuthor.get(0).getTitle()).isEqualTo("Cairo Trilogy");
