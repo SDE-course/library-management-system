@@ -11,7 +11,7 @@ Spring Boot project for managing:
 - Java 17
 - Maven Wrapper (included as `mvnw` / `mvnw.cmd`)
 
-## Team
+## Team (7)
 
 | Full Name | ID Number |
 |---|---:|
