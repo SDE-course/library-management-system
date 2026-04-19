@@ -163,6 +163,6 @@ This structure keeps modules decoupled while still integrated through business w
 
 ## API Testing Artifacts
 
-- Postman collection: `postman/library-management.postman_collection.json`
-- Curl examples: `curl-examples.md`
-- Group info: `groups.txt`
+- [`Postman Collection`](https://github.com/SDE-course/library-management-system/blob/main/postman/library-management.postman_collection.json)
+- [`cURL Examples`](https://github.com/SDE-course/library-management-system/blob/main/curl-examples.md)
+- [`group file`](https://github.com/SDE-course/library-management-system/blob/main/groups.txt)
