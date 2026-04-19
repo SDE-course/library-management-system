@@ -22,8 +22,8 @@ public class MemberService {
         this.mapper = mapper;
     }
 
-    public MemberResponseDTO create(MemberRequestDTO dto) {
-        if (repo.existsByEmail(dto.email)) {
+    public MemberDTO.Response create(MemberDTO.Request dto) {
+        if (repo.existsByEmail(dto.getEmail())) {
             throw new DuplicateResourceException("Email already exists");
         }
 
@@ -31,28 +31,28 @@ public class MemberService {
         return mapper.toResponse(repo.save(member));
     }
 
-    public Page<MemberResponseDTO> getAll(Pageable pageable) {
+    public Page<MemberDTO.Response> getAll(Pageable pageable) {
         return repo.findAll(pageable).map(mapper::toResponse);
     }
 
-    public MemberResponseDTO getById(Long id) {
+    public MemberDTO.Response getById(Long id) {
         Member m = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
         return mapper.toResponse(m);
     }
 
-    public MemberResponseDTO update(Long id, MemberRequestDTO dto) {
+    public MemberDTO.Response update(Long id, MemberDTO.Request dto) {
         Member m = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
 
-        if (!m.getEmail().equalsIgnoreCase(dto.email) && repo.existsByEmail(dto.email)) {
+        if (!m.getEmail().equalsIgnoreCase(dto.getEmail()) && repo.existsByEmail(dto.getEmail())) {
             throw new DuplicateResourceException("Email already exists");
         }
 
-        m.setFirstName(dto.firstName);
-        m.setLastName(dto.lastName);
-        m.setEmail(dto.email);
-        m.setPhoneNumber(dto.phoneNumber);
+        m.setFirstName(dto.getFirstName());
+        m.setLastName(dto.getLastName());
+        m.setEmail(dto.getEmail());
+        m.setPhoneNumber(dto.getPhoneNumber());
 
         return mapper.toResponse(repo.save(m));
     }
@@ -64,7 +64,7 @@ public class MemberService {
         repo.deleteById(id);
     }
 
-    public List<MemberResponseDTO> search(String name) {
+    public List<MemberDTO.Response> search(String name) {
         return repo
                 .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(name, name)
                 .stream()

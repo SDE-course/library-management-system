@@ -2,18 +2,23 @@ package com.example.library.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberRequestDTO {
 
     @NotBlank(message = "First name is required")
-    public String firstName;
+    private String firstName;
 
     @NotBlank(message = "Last name is required")
-    public String lastName;
+    private String lastName;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
-    public String email;
+    private String email;
 
-    public String phoneNumber;
+    private String phoneNumber;
 }

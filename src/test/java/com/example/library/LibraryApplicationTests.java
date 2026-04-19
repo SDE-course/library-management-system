@@ -3,8 +3,7 @@ package com.example.library;
 import com.example.library.dto.AuthorDTO;
 import com.example.library.dto.BookDTO;
 import com.example.library.dto.BorrowRecordDTO;
-import com.example.library.dto.MemberRequestDTO;
-import com.example.library.dto.MemberResponseDTO;
+import com.example.library.dto.MemberDTO;
 import com.example.library.service.AuthorService;
 import com.example.library.service.BookService;
 import com.example.library.service.BorrowRecordService;
@@ -83,17 +82,18 @@ class LibraryApplicationTests {
 				.authorId(author.getId())
 				.build());
 
-		MemberRequestDTO memberRequestDTO = new MemberRequestDTO();
-		memberRequestDTO.firstName = "Ali";
-		memberRequestDTO.lastName = "Hassan";
-		memberRequestDTO.email = "ali@example.com";
-		memberRequestDTO.phoneNumber = "01000000000";
+		MemberDTO.Request memberRequestDTO = MemberDTO.Request.builder()
+				.firstName("Ali")
+				.lastName("Hassan")
+				.email("ali@example.com")
+				.phoneNumber("01000000000")
+				.build();
 
-		MemberResponseDTO member = memberService.create(memberRequestDTO);
+		MemberDTO.Response member = memberService.create(memberRequestDTO);
 
 		BorrowRecordDTO.Response borrowRecord = borrowRecordService.borrowBook(
 				BorrowRecordDTO.Request.builder()
-						.memberId(member.id)
+						.memberId(member.getId())
 						.bookId(book.getId())
 						.build()
 		);
@@ -119,16 +119,17 @@ class LibraryApplicationTests {
 				.authorId(author.getId())
 				.build());
 
-		MemberRequestDTO memberRequestDTO = new MemberRequestDTO();
-		memberRequestDTO.firstName = "Mona";
-		memberRequestDTO.lastName = "Saleh";
-		memberRequestDTO.email = "mona@example.com";
-		memberRequestDTO.phoneNumber = "01111111111";
+		MemberDTO.Request memberRequestDTO = MemberDTO.Request.builder()
+				.firstName("Mona")
+				.lastName("Saleh")
+				.email("mona@example.com")
+				.phoneNumber("01111111111")
+				.build();
 
-		MemberResponseDTO member = memberService.create(memberRequestDTO);
+		MemberDTO.Response member = memberService.create(memberRequestDTO);
 
 		BorrowRecordDTO.Response borrowed = borrowRecordService.borrowBook(BorrowRecordDTO.Request.builder()
-				.memberId(member.id)
+				.memberId(member.getId())
 				.bookId(book.getId())
 				.build());
 

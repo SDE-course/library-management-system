@@ -1,12 +1,17 @@
 package com.example.library.dto;
 
+import lombok.*;
 import java.time.LocalDate;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberResponseDTO {
-    public Long id;
-    public String firstName;
-    public String lastName;
-    public String email;
-    public String phoneNumber;
-    public LocalDate membershipDate;
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phoneNumber;
+    private LocalDate membershipDate;
 }
