@@ -1,0 +1,255 @@
+{
+  "info": {
+    "name": "Library Management API - Full CRUD",
+    "description": "Complete API collection for Library Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authors",
+      "item": [
+        {
+          "name": "Create Author",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/authors", "host": ["{{baseUrl}}"], "path": ["api", "authors"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Naguib\",\n  \"lastName\": \"Mahfouz\",\n  \"nationality\": \"Egyptian\",\n  \"birthDate\": \"1911-12-11\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Authors",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/authors", "host": ["{{baseUrl}}"], "path": ["api", "authors"] }
+          }
+        },
+        {
+          "name": "Get Author By ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/authors/1", "host": ["{{baseUrl}}"], "path": ["api", "authors", "1"] }
+          }
+        },
+        {
+          "name": "Get Books By Author",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/authors/1/books", "host": ["{{baseUrl}}"], "path": ["api", "authors", "1", "books"] }
+          }
+        },
+        {
+          "name": "Update Author",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/authors/1", "host": ["{{baseUrl}}"], "path": ["api", "authors", "1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Naguib\",\n  \"lastName\": \"Mahfouz\",\n  \"nationality\": \"Egyptian\",\n  \"birthDate\": \"1911-12-11\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Author",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/api/authors/1", "host": ["{{baseUrl}}"], "path": ["api", "authors", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "item": [
+        {
+          "name": "Create Book",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/books", "host": ["{{baseUrl}}"], "path": ["api", "books"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Cairo Trilogy\",\n  \"isbn\": \"ISBN-6001\",\n  \"genre\": \"Novel\",\n  \"publishedYear\": 1956,\n  \"authorId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Books",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/books", "host": ["{{baseUrl}}"], "path": ["api", "books"] }
+          }
+        },
+        {
+          "name": "Get Book By ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/books/1", "host": ["{{baseUrl}}"], "path": ["api", "books", "1"] }
+          }
+        },
+        {
+          "name": "Search Books by Title",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/books/search?title=Cairo",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "books", "search"],
+              "query": [{ "key": "title", "value": "Cairo" }]
+            }
+          }
+        },
+        {
+          "name": "Update Book",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/books/1", "host": ["{{baseUrl}}"], "path": ["api", "books", "1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Cairo Trilogy - Updated\",\n  \"isbn\": \"ISBN-6001\",\n  \"genre\": \"Historical Fiction\",\n  \"publishedYear\": 1957,\n  \"authorId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Book",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/api/books/1", "host": ["{{baseUrl}}"], "path": ["api", "books", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Members",
+      "item": [
+        {
+          "name": "Create Member",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/members", "host": ["{{baseUrl}}"], "path": ["api", "members"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Ali\",\n  \"lastName\": \"Hassan\",\n  \"email\": \"ali@example.com\",\n  \"phoneNumber\": \"01000000000\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Members",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/members", "host": ["{{baseUrl}}"], "path": ["api", "members"] }
+          }
+        },
+        {
+          "name": "Get Member By ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/members/1", "host": ["{{baseUrl}}"], "path": ["api", "members", "1"] }
+          }
+        },
+        {
+          "name": "Search Member by Name",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/members/search?name=Ali",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "members", "search"],
+              "query": [{ "key": "name", "value": "Ali" }]
+            }
+          }
+        },
+        {
+          "name": "Update Member",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/members/1", "host": ["{{baseUrl}}"], "path": ["api", "members", "1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Ali\",\n  \"lastName\": \"Hassan\",\n  \"email\": \"ali.updated@example.com\",\n  \"phoneNumber\": \"01011111111\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Member",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/api/members/1", "host": ["{{baseUrl}}"], "path": ["api", "members", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Borrow Records",
+      "item": [
+        {
+          "name": "Borrow Book",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/borrow-records", "host": ["{{baseUrl}}"], "path": ["api", "borrow-records"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"memberId\": 1,\n  \"bookId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Borrow Records",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/borrow-records", "host": ["{{baseUrl}}"], "path": ["api", "borrow-records"] }
+          }
+        },
+        {
+          "name": "Get Borrow Record By ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/borrow-records/1", "host": ["{{baseUrl}}"], "path": ["api", "borrow-records", "1"] }
+          }
+        },
+        {
+          "name": "Get Active Borrow Records",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/borrow-records/active", "host": ["{{baseUrl}}"], "path": ["api", "borrow-records", "active"] }
+          }
+        },
+        {
+          "name": "Get Borrow Records By Member",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/borrow-records/member/1", "host": ["{{baseUrl}}"], "path": ["api", "borrow-records", "member", "1"] }
+          }
+        },
+        {
+          "name": "Return Book",
+          "request": {
+            "method": "PUT",
+            "url": { "raw": "{{baseUrl}}/api/borrow-records/1/return", "host": ["{{baseUrl}}"], "path": ["api", "borrow-records", "1", "return"] }
+          }
+        },
+        {
+          "name": "Delete Borrow Record",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/api/borrow-records/1", "host": ["{{baseUrl}}"], "path": ["api", "borrow-records", "1"] }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
