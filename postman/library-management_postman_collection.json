@@ -207,18 +207,7 @@
             "method": "GET",
             "url": { "raw": "{{baseUrl}}/api/borrow-records", "host": ["{{baseUrl}}"], "path": ["api", "borrow-records"] }
           }
-        },
-        {
-<<<<<<< HEAD
-          "name": "Get Borrow Record By ID",
-          "request": {
-            "method": "GET",
-            "url": { "raw": "{{baseUrl}}/api/borrow-records/1", "host": ["{{baseUrl}}"], "path": ["api", "borrow-records", "1"] }
-          }
-        },
-        {
-=======
->>>>>>> 237ba5b541b005c7922b917784d0012bb1f18807
+        },{
           "name": "Get Active Borrow Records",
           "request": {
             "method": "GET",
@@ -238,16 +227,6 @@
             "method": "PUT",
             "url": { "raw": "{{baseUrl}}/api/borrow-records/1/return", "host": ["{{baseUrl}}"], "path": ["api", "borrow-records", "1", "return"] }
           }
-<<<<<<< HEAD
-        },
-        {
-          "name": "Delete Borrow Record",
-          "request": {
-            "method": "DELETE",
-            "url": { "raw": "{{baseUrl}}/api/borrow-records/1", "host": ["{{baseUrl}}"], "path": ["api", "borrow-records", "1"] }
-          }
-=======
->>>>>>> 237ba5b541b005c7922b917784d0012bb1f18807
         }
       ]
     }
