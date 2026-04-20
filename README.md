@@ -140,6 +140,8 @@ Covered scenarios:
 5. Password: (leave empty)
 6. Click Connect
 
+![alt text](image.png)
+
 ### Run all tests
 
 ```bat
